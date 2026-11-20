@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152922">
+  <title>The Boy Who Lived · Chapter Reader</title>
+  <link rel="stylesheet" href="reader.css">
+  <script defer src="chapter.js"></script>
+  <script defer src="reader.js"></script>
+  <script defer src="notes_speech.js"></script>
+</head>
+<body>
+  <header class="book-header">
+    <div class="measure">
+      <p class="book" lang="en">Harry Potter and the Sorcerer’s Stone</p>
+      <h1 lang="en">The Boy Who Lived</h1>
+      <p class="chapter">第一章 · 大难不死的男孩</p>
+    </div>
+  </header>
+  <main class="measure">
+    <p class="hint">点按英文句子，听朗读、看中文。也可以点麦克风跟读。</p>
+    <article id="chapter" aria-label="第一章正文" lang="en"></article>
+  </main>
+  <aside class="player" aria-label="句子朗读和跟读">
+    <div class="selection" aria-live="polite">
+      <p id="nowPlaying"></p>
+      <p id="translation">选择一句话开始。</p>
+    </div>
+    <div class="playback">
+      <label>语速
+        <select id="rate" aria-label="语速">
+          <option value=".75">慢速</option>
+          <option value="1" selected>正常</option>
+          <option value="1.15">稍快</option>
+        </select>
+      </label>
+      <button id="replay" type="button" disabled>再听一次</button>
+      <button id="stop" type="button" disabled>停止</button>
+      <small id="playback-status" role="status"></small>
+    </div>
+  </aside>
+</body>
+</html>

@@ -1,0 +1,5 @@
+* text=auto eol=lf
+/models/** -text
+/speech_assets/** -text
+/lib/wasm/*.wasm -text
+/audio/** -text

@@ -1,0 +1,1 @@
+const SPEECH_PRACTICE_ENABLED = true;
