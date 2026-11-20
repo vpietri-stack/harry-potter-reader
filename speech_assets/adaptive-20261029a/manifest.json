@@ -11,7 +11,7 @@
       "chunks": [
         "251ea843b5901a99efa58c0b99b8052c6019aa3e7d2baf46693a1128ff606233"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad"
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3"
     },
     {
       "name": "whisper/preprocessor_config.json",
@@ -22,7 +22,7 @@
       "chunks": [
         "a6a76d28c93edb273669eb9e0b0636a2bddbb1272c3261e47b7ca6dfdbac1b8d"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad"
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3"
     },
     {
       "name": "whisper/tokenizer.json",
@@ -42,7 +42,7 @@
         "4eba887fb2284c1c3b8e82a41f7abe0e9fddd8f7fa3a28768ee79519202b5c6d",
         "19023049d14828912ccccd491872dec4db3d15a4e9d43658602be4452a800cbe"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad",
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3",
       "packed": {
         "name": "whisper-tokenizer-5eb60cec1e77.gzip.bin",
         "url": "speech_assets/adaptive-20261029a/whisper-tokenizer-5eb60cec1e77.gzip.bin",
@@ -66,7 +66,7 @@
         "b1645e703fc20582c91c14973044c1fe80f5eb5644ff9e61d8c7ab369ac8ae01",
         "76cb4967929b46dd69cc7b46028e358ac0f9e612c24fd0679e3cce19110919d3"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad",
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3",
       "packed": {
         "name": "whisper-tokenizer_config-93879c3dccdd.gzip.bin",
         "url": "speech_assets/adaptive-20261029a/whisper-tokenizer_config-93879c3dccdd.gzip.bin",
@@ -87,7 +87,7 @@
       "chunks": [
         "7b2e8451ed5f118e75fdd991409d72119d21d2fef1eba9723f68fb9c57fe5dc9"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad"
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3"
     },
     {
       "name": "whisper/onnx/encoder_model_quantized.onnx",
@@ -207,7 +207,41 @@
         "93ad0910f9420d6d3aca6101a605d7e5bedb63db642fe0d17f7372e86209e682",
         "c7b352347d3a238bf7f6ddb4ba03014f51484c7e3cca254364c40c58b7ae5013"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad"
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3",
+      "packed": {
+        "name": "whisper/onnx/encoder_model_quantized.onnx.gzip",
+        "url": "speech_assets/adaptive-20261029a/encoder_model_quantized-74eebc71d1e7.gzip.bin",
+        "bytes": 6592327,
+        "sha256": "74eebc71d1e782049415d38159d5eedfd9b3a7bdeddc6b64c8cbc0d3aca83878",
+        "chunks": [
+          "3233db53f85129bf1a1807be6a5d6b46fcc2b925750726c6dc7b0113b5cdcc66",
+          "e995ff5f205b111fa6f1d1e2f101aec72d62590523111b380bbb7e10a446e3a5",
+          "17f8532adf53711d300dd1537f1dba51580f219431c423e11f95c1849d7f3b33",
+          "c6548756c1eebf713a426198d8ab0f9f0e985279eeb23245e23f92dc14c62eb1",
+          "1f6ac126261f281defdd694d26da1e60c792eb83efb53f94bc1948ec9f62e27a",
+          "7d8b8788f53af1609dd57ff5dafbe4dc4c6fa946352fc0d81b683599ae158487",
+          "0ba10981790b407243f7b2fbfd97e83b884075b860b34761af464188a0cecda9",
+          "71f453e7ead6e9859fa51ae5f144376f5d78c9ff4f83d711bfe2a7c8d5ec49ca",
+          "09773135bd40609d09dd9f13bced85297722c86854e73604699852a6780a2234",
+          "812ce97ade734f71bffc8d43f0ee69708b2ba0ff500c5437b0f8e34888e698fd",
+          "2880a110c30b4ee8272a5ce813c32113b158cebe547bbfc351b2db81c692fc1d",
+          "c8d14bfbb4103bd6f31ab8b689f8077f09e6aae4cb9de13a36ffed5d3936ac9b",
+          "0b3cdc4c2325a751d17846cf4fdef75a660020251697577906615f419112d8a9",
+          "2abe6f2f34a8627cddfc0bb1c9d4dee9ddeaef818d44d00948889f3aa0a37f6c",
+          "b1375109ea2363fbcc822d4d8522c20c5158c3f5dce2f6ffe255f0f4152b4635",
+          "7691d9aec3efbf2ef7f9d3c1e61b4c4f5d1837ef1b7aac8ca8bc967974cc10c0",
+          "c0c74703f8a98073e8a48346f209a67ae8f627368a7d5f5ed0b76b30aec63e3c",
+          "a9d636f085dbc4d6cd32dd7f611fc6d3b29c1b315f9fcb8ad6c253c2bac8afb3",
+          "ae25468ed4284336497491141fba735e76e00f8ffc25e434aaf27179936f77d5",
+          "3605731718199ab2fdf9ac0042b9c513db113c053a62b4e44e8c1a60c3906a3c",
+          "eb9cab903fc9a603bf9ee4513ac3a2c44ab0eb86c8241228215580b245b95d29",
+          "b220dc0581b0dbddf366b85acb9bcf392008280e22b2a7963580c5d5cb4e77f8",
+          "ea6c720223a76d8b78fd31ad6e55c2592c68a2bf3f1ce63b90f05be53e2b0ad8",
+          "b493e052e7a7163f5ea78b050e26e8490f3ab4685452e9b6355a029f6e92f2fd",
+          "b144c4f031d186e1f36e2e05c51d24366940c80e2ca1ccbafc710e9f3cf2b283",
+          "98315d28006d7a3de0374d3bec793775d90931a77feafbfc045f7313d8acf6a5"
+        ]
+      }
     },
     {
       "name": "whisper/onnx/decoder_model_merged_quantized.onnx",
@@ -489,7 +523,85 @@
         "edbadd24b37db6823cf318f7251fc9c8325d20ae2fd9c6ca1c4d9725c8c0f27f",
         "fb46d821cc0efcea7fe44d142c6c71e3c21163d7031f461b936b42defabccdfb"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad"
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3",
+      "packed": {
+        "name": "whisper/onnx/decoder_model_merged_quantized.onnx.gzip",
+        "url": "speech_assets/adaptive-20261029a/decoder_model_merged_quantized-e8c447ede739.gzip.bin",
+        "bytes": 18284255,
+        "sha256": "e8c447ede7397878c590c0b6e0310e2e4b6c898a12cd0dfdf0d6f0ad9a187850",
+        "chunks": [
+          "3eaa6f5592dadee0026c75f778a456113f54b2ae4b99d56fbe47bfe61f8044c5",
+          "4ac5885a3b7fa97e94cafeb5c23d00a8b484e9ebcfffa31a922c79250e4c86a5",
+          "ddd1bdec432b495c98637fdd5a2f3a4412b0ca8c0b12cf4afa34430e15ea6200",
+          "0863354b4e2f260012a97178c5dd2b9f8aec21cf940bf5757e65d31d9a654359",
+          "dbd42bf070d576abd6726c53dd88d5989f5ee8ecea94c60c61273529f679f99d",
+          "5d00fdcca6fff70ce7e962edfa3de99d8e3d79333e8476b71fafeca916b7277c",
+          "4a0293205df5bad7970ec321493cc248aac006f5f5c2cfd6fec7eda97cf6cb14",
+          "4b6df83dac83eef2a0dce55c6314951167cd8370ad1a6040efb61418f21451bb",
+          "30416b577994ba4491987e69d3522f51178ec74ca0c36ad19d269cab37c4b591",
+          "31b5199976a78fe94d15b454107082727dfde4ca1d2d4674351649ec3ccf2921",
+          "e409f4e899fbd46fde1b11b8b6277f49fc3b4df6eb4e838b8cb0648a5c62c18a",
+          "fab1492bdfa9f4164055e1cfc4a005698b6121d85dde0466d446499c3f1ef315",
+          "59b43b0087685d58a563bc31cf121c72d1cb4bda3d3cdc0b1d8c515a69950690",
+          "e24b8b5ca0eed02b6b40362bcc447608d1c5b6dab945a267e9e93696ca0f251a",
+          "4e812463a382329bf118ee4ebbee6cd6441f3321d0e7c3c12adc9c02fcfcbfd7",
+          "1b4edc4d2c23f7eaf4aaa70c44b8d74d41e51f4ba299cacee262679982bc24dc",
+          "f64533f5000ba2df63b236e0fb6bd357cd636d4cf7b6cd504735ac170d78949f",
+          "0d4583a86953765c1f085bb7092a135b36a112e136b0d837462a50c50c5ef636",
+          "bca7d7f16a1a14b27e1491e095f948b7bc64a5e3b76c1d2082f8367eaab888c1",
+          "28bdcb3a98f34b9a908632d26c2e8cf1b451b368fa754967797478ebc9218e59",
+          "882d324453f4a68df1bfabfa4ea40acb4789a424818a6c85ef8fa6638cdfbce9",
+          "67e2ef7a760892efdaf40a499a0c46567573d83f9fe31f9cf633dd5959258a16",
+          "8e4e17d839a721577306f32099ddc39a2204e42abc1feb2129dbc666effbedbc",
+          "b4bb71949730366fee34ae9e9a2a98ea271e52fabba302547157410d34ab889a",
+          "55a99837ab1b2e324e835d8a41194a1ae3583eab813eabbe8a4e28b388d4f0d1",
+          "134a0f2e7e87636cae7d632c419ccae0bd34519b83c572301c7c9b1fe15dd529",
+          "0ee3190e839e8fae9352e30d8c17f189f7bfb222e95b9755d338303fcf77b382",
+          "31ee97e55207ce1454e6b02ac9daf2c0ad61c004689d2573d85d382b96d1fab9",
+          "4f666c8f99e26dc0c2328d9b9a92315173e2b9deae2f66167e63a5afe065d8fb",
+          "bc6dc43c226c37f0fd08f2c6df9d060f8be1bcdf662da8af495e487af30fe7fb",
+          "fed4ff93eab699d914732c650fdf91b18aa1b7de70796e3227d18208bff56aa8",
+          "a0fd354ddff60ad94db2bd993b1545c2bd1774b28d2f2a1e2f32f4601c14645b",
+          "ecc4c7ecb0f6d950639aa4ff72fa15f8a4a921c2b8dc2e93eb3e98e2b3f6066a",
+          "ffe410ae1a868aea83f6363c8eee5e800326a939ff70b0c088ec25f3ec93af3a",
+          "a7d94df9488d1c8718f8c557d6063436bf28ec40d0ae8a7aa8b23bd0229f35c1",
+          "31275f2897fb1548b84f9eafa0424a561ae01fab9cd505273e35f5c2bee1789f",
+          "8974b84cc7181dc567309ac7d0df1dfa354996afa544afa4ab09b7819b1210be",
+          "d64c06c5e07549403653108b4cffba795452591f0a428d55bd10df6c96e0d658",
+          "9c68346e4249c0bcc99a5af64902941f9aa7f28f69016881681660b2b8390ed4",
+          "3bb681b806e92ff7e2dcb5276e1b8294e2da511a233588449ccc26be3e0587c0",
+          "03774806f53ff33bc8d815f7ad021e83c0679a7c977e27e660b10e94220819a7",
+          "6072abf32557c1681671c5e67225b052fafe19391b1cff78fb1066bb68e6fd4a",
+          "38f8a97f92a79bd8103c6c39b47935b28b191af665988fe2d7a7c7fa5b9a8784",
+          "239b4d2ad285452914fe2a6e919064f5f9685cda1574722906d6c0210b7c3508",
+          "b15c2ddfb33065138a7f3ef4c81f3f97c53bf2db6acd4c386c2270c85e5f89e5",
+          "efd50c1f6e7ca5d7787671274c4c3badadb252b36001db5c3de24cda8dbcc1e0",
+          "e285f784533c9a643109a2fd4bfc13eb4493c6abfe3f7b03a77b95f4d80b8bae",
+          "00cafc65f52dce0dc7c6edcd0ff9015c412ac81879cf41204f404ede262cf6c7",
+          "57a61e7fadbbccc134944bc56dcfacd4ecc5a1dc88c7625ff96093eed85c3258",
+          "a9267012fa0ea7d87d15420da0cfdaed4ac4866ecccc08cecaa8d686914a9449",
+          "37ee5c31a6c0bfc9a66030450c63764edec9f842e223694571777f661421d77d",
+          "f95ec0b3ae7b76c94ce9d890128c896909d8346c0e94956898dc3b991784f529",
+          "603a52ecdec787e2649506ddd47f769a43272873a6b1ee4247356104cc4abaa8",
+          "f4fcbbd36511821051c4f45a1b63e4c1c8bb1e173ee61f7c16c460783be522a7",
+          "b24b8dacac64d11712bda82b1b6a56184403de40fb4df45d97fcb46b3344bfc8",
+          "41bb30f77689a90e4804389f3bd794490844a5410383baa8774eb0c787e90f19",
+          "74f30d6e8cd86b2a53e22dd3bf3d4a69937d4459bea44d172b39d7c6f39ac6c0",
+          "4fbde845542d8a3f8d6086aede942e448737936e76525ff82bf06dc89d55583e",
+          "03cc5fac3896c440a1c0c8d1562ac844397857c7e5ef17d39bd7c8a47612c258",
+          "7b6a3410e25e473e3cda464a913c71e8185b56b94c97ebb5e5e6907e5a234f8e",
+          "8dd56d3951f36b7f2ea3a6cc4c7b3d95b7a6ab09894d62ea07cecd4233d5bfee",
+          "1725d9b2101929352cb7d743d46e689ab235ee64d815d3287f815161a84ff087",
+          "0bfb386472d098f1aa480bca929e369bf66f58285be73cef9238268358811329",
+          "812b1e6ca0709a220f3c91fb8aff51f798320d501df30ba5d4b21e8ade1cee52",
+          "7c167793d86666b3afe3bbdb1ca4aa7e2ba62cd79cc1a79cd447ef02bbea4f5c",
+          "19270c8aeaa29c3f7a89c912a514352e6b081cf4137dd0875d9fbb5e6f425da6",
+          "4bc255b3b21263df5977484435ff402a2c0d5a64400785dd7c406ea7578b5fd5",
+          "59a4754c68e7b06403f500a374e44324101803afec1a005b539383f92ee14f91",
+          "c2b36f7ab31e420bc8d7410fde04e1856dcf114d1e2f65c16bef68c290105bf4",
+          "ba63663c27310812b3c935cb6864e61d6dd7e5b203b699724093f8f40fff3ab3"
+        ]
+      }
     },
     {
       "name": "encoder.patch.json",
@@ -662,7 +774,7 @@
         "dafd5aee7440d4bfb01c0bb512a0a5e0dbc539aef40278e63146c238c2029e21",
         "1d63926084e83084df2d98f71845cfb96b462278443221d4599c834f8b602b0d"
       ],
-      "sourceRevision": "a6a3854082ec37510d562ef80c15cd32ae9c1aad",
+      "sourceRevision": "aa73bfbd3e7680ad91b900aa5a6de6fef4ee82e3",
       "httpCacheURLs": [
         "https://vpietri-stack.github.io/Classroom-survivors-lib/tjs-v3/wasm/ort-wasm-simd-threaded.jsep.wasm",
         "lib/wasm/ort-wasm-simd-threaded.jsep.wasm"

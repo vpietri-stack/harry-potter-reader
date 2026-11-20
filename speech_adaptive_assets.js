@@ -28,7 +28,7 @@ function sources(file,preferLocal=false){
 }
 export async function prepareAdaptiveAssets(progress=()=>{},options={}){
  const fetcher=options.fetch||globalThis.fetch.bind(globalThis),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);let manifest;
- try{const response=await fetcher(new URL('manifest.json?v=5',assetBase),{signal:controller.signal,cache:'no-cache'});if(!response.ok)throw Error('Speech asset list unavailable');manifest=await response.json();}finally{clearTimeout(timer);}
+ try{const response=await fetcher(new URL('manifest.json?v=6',assetBase),{signal:controller.signal,cache:'no-cache'});if(!response.ok)throw Error('Speech asset list unavailable');manifest=await response.json();}finally{clearTimeout(timer);}
  if(manifest.schema!==1||manifest.id!==ASSET_ID||manifest.transportVersion!==3)throw Error('Speech file list is out of date. Reload this preview page.');
  let cache;try{cache=await caches.open('speech-adaptive-assets-v1');}catch(_){}
  const buffers=new Map(),total=manifest.files.reduce((sum,f)=>sum+f.bytes,0);let done=0,networkBytes=0,reusedBytes=0;
@@ -47,7 +47,7 @@ export async function prepareAdaptiveAssets(progress=()=>{},options={}){
     }
     bytes.set(new Uint8Array(chunk),start);done+=length*logicalBytes/file.bytes;notify('Downloading '+file.name);
    }}
-   const completed=await Promise.allSettled(Array.from({length:Math.min(4,count)},()=>part())),failed=completed.find(r=>r.status==='rejected');if(failed)throw failed.reason;
+   const completed=await Promise.allSettled(Array.from({length:Math.min(6,count)},()=>part())),failed=completed.find(r=>r.status==='rejected');if(failed)throw failed.reason;
    if(await sha256(bytes)!==file.sha256)throw Error(file.name+' did not match its verified file list. Reload the updated preview.');return bytes;
  }
  async function transfer(file,logicalBytes){
