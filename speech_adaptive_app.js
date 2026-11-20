@@ -3,7 +3,7 @@
 (function (w) {
   'use strict';
   const enabled = typeof SPEECH_PRACTICE_ENABLED !== 'undefined' && SPEECH_PRACTICE_ENABLED;
-  let worker, pending, loading, ready = false, sequence = 0, preferLocal = false, assessing = false;
+  let worker, pending, loading, ready = false, sequence = 0, preferLocal = true, assessing = false;
   const listeners = new Set();
   function error(message, code) { const e = new Error(message); e.code = code; return e; }
   function emit(pct, file) { listeners.forEach(fn => fn(pct, file)); }
