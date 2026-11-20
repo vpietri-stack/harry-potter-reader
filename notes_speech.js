@@ -22,6 +22,7 @@
   }
   function discard() { if (recordingURL) URL.revokeObjectURL(recordingURL); recordingURL = null; replay.disabled = true; }
   function render(words) {
+    if (window.InteractiveNotesPOC.renderFeedback?.(words)) return;
     const displayText = target.displayText || target.text;
     caption.replaceChildren(); let index = 0, offset = 0;
     for (const match of displayText.matchAll(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu)) {

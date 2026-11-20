@@ -10,7 +10,10 @@
   const rate = document.querySelector('#rate');
   const status = document.querySelector('#playback-status');
   const audio = new Audio();
+  const wordPattern = /[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu;
   let selected;
+  let highlightedPhrase;
+  let heardWords;
   let playbackRequest = 0;
 
   function pause() {
@@ -18,7 +21,88 @@
     audio.pause();
   }
 
-  window.InteractiveNotesPOC = { pause };
+  function showTranslation() {
+    const text = selected.zh;
+    if (!highlightedPhrase) {
+      translation.textContent = text;
+      return;
+    }
+    const [, , ...ranges] = highlightedPhrase;
+    const fragment = document.createDocumentFragment();
+    let offset = 0;
+    for (let index = 0; index < ranges.length; index += 2) {
+      const start = ranges[index];
+      const end = ranges[index + 1];
+      const mark = document.createElement('mark');
+      mark.className = 'phrase-translation';
+      mark.textContent = text.slice(start, end);
+      fragment.append(text.slice(offset, start), mark);
+      offset = end;
+    }
+    fragment.append(text.slice(offset));
+    translation.replaceChildren(fragment);
+  }
+
+  function showCaption() {
+    const script = selected.en;
+    const words = Array.from(script.matchAll(wordPattern));
+    const fragment = document.createDocumentFragment();
+    let wordIndex = 0;
+    function appendRange(parent, start, end) {
+      let offset = start;
+      while (wordIndex < words.length && words[wordIndex].index < end) {
+        const word = words[wordIndex];
+        parent.append(script.slice(offset, word.index));
+        const span = document.createElement('span');
+        span.textContent = word[0];
+        if (heardWords?.[wordIndex]?.heardClear) span.className = 'notes-heard';
+        parent.append(span);
+        offset = word.index + word[0].length;
+        wordIndex += 1;
+      }
+      parent.append(script.slice(offset, end));
+    }
+    let offset = 0;
+    for (const phrase of selected.links || []) {
+      const [start, end] = phrase;
+      appendRange(fragment, offset, start);
+      const button = document.createElement('span');
+      button.className = 'phrase';
+      button.tabIndex = 0;
+      button.setAttribute('role', 'button');
+      button.setAttribute('aria-pressed', String(phrase === highlightedPhrase));
+      appendRange(button, start, end);
+      function toggle() {
+        highlightedPhrase = phrase === highlightedPhrase ? undefined : phrase;
+        for (const other of caption.querySelectorAll('.phrase[aria-pressed=true]')) {
+          other.setAttribute('aria-pressed', 'false');
+        }
+        button.setAttribute('aria-pressed', String(Boolean(highlightedPhrase)));
+        showTranslation();
+      }
+      button.addEventListener('click', toggle);
+      button.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggle();
+        }
+      });
+      fragment.append(button);
+      offset = end;
+    }
+    appendRange(fragment, offset, script.length);
+    caption.replaceChildren(fragment);
+  }
+
+  window.InteractiveNotesPOC = {
+    pause,
+    renderFeedback(words) {
+      if (!selected) return false;
+      heardWords = words;
+      showCaption();
+      return true;
+    },
+  };
 
   async function play() {
     pause();
@@ -41,11 +125,13 @@
 
   function select(sentence, control) {
     selected?.control.setAttribute('aria-pressed', 'false');
+    if (selected?.control !== control) highlightedPhrase = undefined;
     selected = { ...sentence, control };
+    heardWords = undefined;
     control.setAttribute('aria-pressed', 'true');
     caption.lang = 'en';
-    caption.textContent = sentence.en;
-    translation.textContent = sentence.zh;
+    showCaption();
+    showTranslation();
     replay.disabled = false;
     stop.disabled = false;
     window.dispatchEvent(new CustomEvent('notes-select', {

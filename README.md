@@ -1,6 +1,6 @@
 # Chapter reader
 
-A standalone bilingual, sentence-by-sentence reader for Chapter 1 of Harry Potter and the Sorcerer’s Stone. Select an English sentence to hear the Fish Audio Free narration and see its Simplified Chinese translation. Select 试着读 to record it and check which words the speech engine heard clearly.
+A standalone bilingual, sentence-by-sentence reader for Chapter 1 of Harry Potter and the Sorcerer’s Stone. Select an English sentence to hear Jim Dale’s audiobook narration and see its Simplified Chinese translation. Select an underlined word or expression in the bottom panel to highlight its corresponding Chinese text. Select 试着读 to record it and check which words the speech engine heard clearly.
 
 Serve the repository root with a static web server that supports HTTP byte ranges for the speech model. The microphone requires localhost or HTTPS.
 
