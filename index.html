@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#152922">
   <title>The Boy Who Lived · Chapter Reader</title>
-  <link rel="stylesheet" href="reader.css?v=3">
-  <script defer src="chapter.js?v=3"></script>
-  <script defer src="reader.js?v=3"></script>
-  <script defer src="notes_speech.js?v=3"></script>
+  <link rel="stylesheet" href="reader.css?v=4">
+  <script defer src="chapter.js?v=4"></script>
+  <script defer src="word-audio.js?v=4"></script>
+  <script defer src="reader.js?v=4"></script>
+  <script defer src="notes_speech.js?v=4"></script>
 </head>
 <body>
   <header class="book-header">
@@ -19,7 +20,7 @@
     </div>
   </header>
   <main class="measure">
-    <p class="hint">点句子听朗读、看中文。点下方带下划线的词语可看对应翻译，也可以点麦克风跟读。</p>
+    <p class="hint">点句子听朗读。点下方的词语可单独听发音，带下划线的词语还可高亮对应中文。</p>
     <article id="chapter" aria-label="第一章正文" lang="en"></article>
   </main>
   <aside class="player" aria-label="句子朗读和跟读">
@@ -35,7 +36,7 @@
           <option value="1.15">稍快</option>
         </select>
       </label>
-      <button id="replay" type="button" disabled>再听一次</button>
+      <button id="replay" type="button" disabled>再听整句</button>
       <button id="stop" type="button" disabled>停止</button>
       <small id="playback-status" role="status"></small>
     </div>

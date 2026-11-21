@@ -77,6 +77,7 @@ article p { margin: 0 0 1.15rem; }
   -webkit-box-decoration-break: clone;
 }
 .player .phrase:hover { background: #e8eee4; }
+.player .pronunciation-only { text-decoration: none; }
 .player .phrase[aria-pressed="true"], .player .phrase[aria-pressed="true"]:hover, .phrase-translation {
   background: #f4dfa5;
   color: #302a18;

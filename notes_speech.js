@@ -100,6 +100,12 @@
     cancel(); target = event.detail; idle();
     if (changed) { discard(); message(canPractice() ? '点麦克风试读，读完再点一次停止。' : '先点一个单词或句子，再点麦克风试读。'); }
   });
+  window.addEventListener('notes-playback', () => {
+    if (phase !== 'idle' || ownAudio) {
+      cancel();
+      message('点麦克风试读，读完再点一次停止。');
+    }
+  });
   document.getElementById('stop').addEventListener('click', () => { cancel(); message('已停止。可以继续点读或试读。'); });
   document.addEventListener('visibilitychange', () => { if (document.hidden) { cancel(); discard(); message('已停止录音。'); } });
   function dispose() { cancel(); discard(); target = null; idle(); }
