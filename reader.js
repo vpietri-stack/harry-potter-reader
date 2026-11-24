@@ -11,6 +11,7 @@
   const status = document.querySelector('#playback-status');
   const audio = new Audio();
   const wordPattern = /[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu;
+  const bookmarkKey = 'harry-potter-reader:chapter-1:last-sentence';
   let selected;
   let highlightedPhrase;
   let heardWords;
@@ -154,9 +155,16 @@
     window.dispatchEvent(new CustomEvent('notes-select', {
       detail: { id: control.id, text: sentence.en },
     }));
-    play(selected.audio);
   }
 
+  let bookmarkedAudio;
+  try {
+    bookmarkedAudio = localStorage.getItem(bookmarkKey);
+  } catch {
+    // The reader still works when storage is unavailable.
+  }
+
+  let bookmark;
   let index = 0;
   for (const paragraph of window.chapter) {
     const block = document.createElement('p');
@@ -168,11 +176,21 @@
       control.setAttribute('role', 'button');
       control.textContent = sentence.en;
       control.setAttribute('aria-pressed', 'false');
-      control.addEventListener('click', () => select(sentence, control));
+      if (sentence.audio === bookmarkedAudio) bookmark = { sentence, control };
+      function openSentence() {
+        select(sentence, control);
+        try {
+          localStorage.setItem(bookmarkKey, sentence.audio);
+        } catch {
+          // Keep playing even if the browser could not save the bookmark.
+        }
+        play(sentence.audio);
+      }
+      control.addEventListener('click', openSentence);
       control.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          select(sentence, control);
+          openSentence();
         }
       });
       if (block.childNodes.length) block.append(' ');
@@ -182,7 +200,9 @@
   }
 
   replay.addEventListener('click', () => {
-    if (selected) select(selected, selected.control);
+    if (!selected) return;
+    select(selected, selected.control);
+    play(selected.audio);
   });
   stop.addEventListener('click', pause);
   rate.addEventListener('change', () => { audio.playbackRate = Number(rate.value); });
@@ -190,4 +210,17 @@
   new ResizeObserver(() => {
     document.documentElement.style.setProperty('--player-height', player.offsetHeight + 'px');
   }).observe(player);
+
+  if (bookmark) {
+    // Restore after the speech controls have registered their selection listener.
+    window.addEventListener('pageshow', () => {
+      if (selected) return;
+      select(bookmark.sentence, bookmark.control);
+      requestAnimationFrame(() => {
+        if (selected.control === bookmark.control) {
+          bookmark.control.scrollIntoView({ block: 'center' });
+        }
+      });
+    }, { once: true });
+  }
 })();
