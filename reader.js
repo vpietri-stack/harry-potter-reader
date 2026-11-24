@@ -10,6 +10,7 @@
   const rate = document.querySelector('#rate');
   const status = document.querySelector('#playback-status');
   const audio = new Audio();
+  audio.preservesPitch = true;
   const wordPattern = /[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu;
   const bookmarkKey = 'harry-potter-reader:chapter-1:last-sentence';
   let selected;
