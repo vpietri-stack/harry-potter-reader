@@ -61,6 +61,12 @@ article p { margin: 0 0 1.15rem; }
 #nowPlaying:empty { display: none; }
 #translation { color: var(--muted); margin-top: .25rem; }
 .playback, .notes-speech { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem .6rem; margin-top: .55rem; }
+.sentence-parts, #part-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.sentence-parts { margin-top: .55rem; }
+.sentence-parts[hidden] { display: none; }
+.player #part-buttons button { min-width: 2.6rem; min-height: 1.9rem; padding: .15rem .4rem; }
+.player #part-buttons button[aria-pressed="true"] { background: var(--accent); color: white; }
+.playing-part { background: #dcebe3; border-radius: .14em; }
 .player button, .player select { min-height: 2.3rem; border-radius: .45rem; padding: .3rem .72rem; border: 1px solid var(--line); color: var(--accent); background: #eef3ec; }
 .player button:hover:enabled { background: #dfeadf; }
 .player #notes-mic { background: var(--accent); color: white; }

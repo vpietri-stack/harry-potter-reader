@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#152922">
   <title>The Boy Who Lived · Chapter Reader</title>
-  <link rel="stylesheet" href="reader.css?v=4">
+  <link rel="stylesheet" href="reader.css?v=7">
   <script defer src="chapter.js?v=4"></script>
   <script defer src="word-audio.js?v=4"></script>
-  <script defer src="reader.js?v=6"></script>
+  <script defer src="sentence-parts.js?v=7"></script>
+  <script defer src="reader.js?v=7"></script>
   <script defer src="notes_speech.js?v=4"></script>
 </head>
 <body>
@@ -27,6 +28,10 @@
     <div class="selection" aria-live="polite">
       <p id="nowPlaying"></p>
       <p id="translation">选择一句话开始。</p>
+    </div>
+    <div id="sentence-parts" class="sentence-parts" role="group" aria-label="分段听" hidden>
+      <small>分段听</small>
+      <div id="part-buttons"></div>
     </div>
     <div class="playback">
       <label>语速

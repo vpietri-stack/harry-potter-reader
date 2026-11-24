@@ -9,6 +9,8 @@
   const stop = document.querySelector('#stop');
   const rate = document.querySelector('#rate');
   const status = document.querySelector('#playback-status');
+  const partsRow = document.querySelector('#sentence-parts');
+  const partButtons = document.querySelector('#part-buttons');
   const audio = new Audio();
   audio.preservesPitch = true;
   const wordPattern = /[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu;
@@ -16,11 +18,49 @@
   let selected;
   let highlightedPhrase;
   let heardWords;
+  let activePart;
   let playbackRequest = 0;
 
   function pause() {
     playbackRequest += 1;
     audio.pause();
+    if (activePart) setActivePart();
+  }
+
+  function inActivePart(offset) {
+    return Boolean(activePart && activePart[0] <= offset && offset < activePart[1]);
+  }
+
+  function setActivePart(part) {
+    activePart = part;
+    for (const word of caption.querySelectorAll('[data-word-start]')) {
+      word.classList.toggle('playing-part', inActivePart(Number(word.dataset.wordStart)));
+    }
+    for (const button of partButtons.children) {
+      button.setAttribute('aria-pressed', String(button.dataset.file === part?.[2]));
+    }
+  }
+
+  function showParts() {
+    const parts = window.sentenceParts?.[selected.audio] || [];
+    partsRow.hidden = parts.length < 2;
+    partButtons.replaceChildren();
+    parts.forEach((part, index) => {
+      const [start, end, file] = part;
+      const label = selected.en.slice(start, end).trim();
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = '▶ ' + (index + 1);
+      button.title = label;
+      button.dataset.file = file;
+      button.setAttribute('aria-label', '播放第 ' + (index + 1) + ' 段 ' + label);
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => {
+        window.dispatchEvent(new Event('notes-playback'));
+        play('audio/parts/' + file, '', part);
+      });
+      partButtons.append(button);
+    });
   }
 
   function showTranslation() {
@@ -81,6 +121,8 @@
         const span = document.createElement('span');
         span.textContent = word[0];
         if (heardWords?.[wordIndex]?.heardClear) span.className = 'notes-heard';
+        span.dataset.wordStart = word.index;
+        span.classList.toggle('playing-part', inActivePart(word.index));
         if (pronounceWords) {
           const button = phraseControl([word.index, word.index + word[0].length]);
           button.append(span);
@@ -116,10 +158,11 @@
     },
   };
 
-  async function play(source, hint = '') {
+  async function play(source, hint = '', part) {
     pause();
     const request = playbackRequest;
     status.textContent = hint;
+    if (part) setActivePart(part);
     try {
       const url = new URL(source, document.baseURI).href;
       if (audio.src !== url) audio.src = url;
@@ -146,11 +189,13 @@
     selected?.control.setAttribute('aria-pressed', 'false');
     if (selected?.control !== control) highlightedPhrase = undefined;
     selected = { ...sentence, control };
+    activePart = undefined;
     heardWords = undefined;
     control.setAttribute('aria-pressed', 'true');
     caption.lang = 'en';
     showCaption();
     showTranslation();
+    showParts();
     replay.disabled = false;
     stop.disabled = false;
     window.dispatchEvent(new CustomEvent('notes-select', {
