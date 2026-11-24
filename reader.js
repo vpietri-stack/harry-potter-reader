@@ -24,7 +24,6 @@
   function pause() {
     playbackRequest += 1;
     audio.pause();
-    if (activePart) setActivePart();
   }
 
   function inActivePart(offset) {
@@ -33,7 +32,9 @@
 
   function setActivePart(part) {
     activePart = part;
+    heardWords = undefined;
     for (const word of caption.querySelectorAll('[data-word-start]')) {
+      word.classList.remove('notes-heard');
       word.classList.toggle('playing-part', inActivePart(Number(word.dataset.wordStart)));
     }
     for (const button of partButtons.children) {
@@ -56,8 +57,11 @@
       button.setAttribute('aria-label', '播放第 ' + (index + 1) + ' 段 ' + label);
       button.setAttribute('aria-pressed', 'false');
       button.addEventListener('click', () => {
-        window.dispatchEvent(new Event('notes-playback'));
-        play('audio/parts/' + file, '', part);
+        if (activePart !== part) setActivePart(part);
+        window.dispatchEvent(new CustomEvent('notes-select', {
+          detail: { id: selected.control.id + '-part-' + (index + 1), text: label, partNumber: index + 1 },
+        }));
+        play('audio/parts/' + file);
       });
       partButtons.append(button);
     });
@@ -88,6 +92,7 @@
   function showCaption() {
     const script = selected.en;
     const words = Array.from(script.matchAll(wordPattern));
+    const partWordOffset = activePart ? words.filter(word => word.index < activePart[0]).length : 0;
     const fragment = document.createDocumentFragment();
     let wordIndex = 0;
     function phraseControl(phrase) {
@@ -120,7 +125,9 @@
         parent.append(script.slice(offset, word.index));
         const span = document.createElement('span');
         span.textContent = word[0];
-        if (heardWords?.[wordIndex]?.heardClear) span.className = 'notes-heard';
+        if ((!activePart || inActivePart(word.index)) && heardWords?.[wordIndex - partWordOffset]?.heardClear) {
+          span.className = 'notes-heard';
+        }
         span.dataset.wordStart = word.index;
         span.classList.toggle('playing-part', inActivePart(word.index));
         if (pronounceWords) {
@@ -158,11 +165,10 @@
     },
   };
 
-  async function play(source, hint = '', part) {
+  async function play(source, hint = '') {
     pause();
     const request = playbackRequest;
     status.textContent = hint;
-    if (part) setActivePart(part);
     try {
       const url = new URL(source, document.baseURI).href;
       if (audio.src !== url) audio.src = url;

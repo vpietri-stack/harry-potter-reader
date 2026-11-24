@@ -12,6 +12,9 @@
   if (window.ResizeObserver) new ResizeObserver(() => document.documentElement.style.setProperty("--notes-player-height", player.offsetHeight + "px")).observe(player);
   let target = null, phase = 'idle', generation = 0, recorder = null, assessment = null, timer = null, recordingURL = null, ownAudio = null, runtime = null;
   const message = text => { status.textContent = text; };
+  const practicePrompt = () => target?.partNumber
+    ? '点麦克风试读第 ' + target.partNumber + ' 段，读完再点一次停止。'
+    : '点麦克风试读，读完再点一次停止。';
   function canPractice() { return !!target && (target.text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu) || []).length >= 1; }
   function idle() { phase = 'idle'; mic.disabled = !canPractice(); mic.textContent = '🎤 试着读'; mic.setAttribute('aria-label', '开始录音'); mic.setAttribute('aria-pressed', 'false'); }
   function cancel() {
@@ -50,6 +53,7 @@
     return runtime;
   }
   async function finish(ticket, api) {
+    if (ticket !== generation || phase !== 'recording') return;
     clearTimeout(timer); phase = 'checking'; mic.disabled = true; mic.textContent = '正在听…'; message('正在听你的录音…');
     const active = recorder; recorder = null;
     try {
@@ -83,7 +87,9 @@
       if (ticket !== generation) return;
       clearTimeout(timer); phase = 'recording'; mic.disabled = false; mic.textContent = '■ 停止录音'; mic.setAttribute('aria-label', '停止录音'); mic.setAttribute('aria-pressed', 'true');
       window.InteractiveNotesPOC.recordingStarted?.();
-      message('正在录音，读完再点一次麦克风。');
+      message(target.partNumber
+        ? '正在录音，请读第 ' + target.partNumber + ' 段。读完再点一次麦克风。'
+        : '正在录音，读完再点一次麦克风。');
       timer = setTimeout(() => { if (ticket === generation) finish(ticket, api); }, 20000);
     } catch (error) {
       if (ticket !== generation) return;
@@ -98,15 +104,18 @@
   window.addEventListener('notes-select', event => {
     const changed = !target || target.id !== event.detail.id;
     cancel(); target = event.detail; idle();
-    if (changed) { discard(); message(canPractice() ? '点麦克风试读，读完再点一次停止。' : '先点一个单词或句子，再点麦克风试读。'); }
+    if (changed) { discard(); message(canPractice() ? practicePrompt() : '先点一个单词或句子，再点麦克风试读。'); }
   });
   window.addEventListener('notes-playback', () => {
     if (phase !== 'idle' || ownAudio) {
       cancel();
-      message('点麦克风试读，读完再点一次停止。');
+      message(practicePrompt());
     }
   });
-  document.getElementById('stop').addEventListener('click', () => { cancel(); message('已停止。可以继续点读或试读。'); });
+  document.getElementById('stop').addEventListener('click', () => {
+    cancel();
+    message(target?.partNumber ? practicePrompt() : '已停止。可以继续点读或试读。');
+  });
   document.addEventListener('visibilitychange', () => { if (document.hidden) { cancel(); discard(); message('已停止录音。'); } });
   function dispose() { cancel(); discard(); target = null; idle(); }
   window.NotesSpeech = { dispose };
