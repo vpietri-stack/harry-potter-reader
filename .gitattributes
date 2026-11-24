@@ -3,3 +3,4 @@
 /speech_assets/** -text
 /lib/wasm/*.wasm -text
 /audio/** -text
+/speech_option1/zipa/*.bin -text

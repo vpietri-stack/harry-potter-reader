@@ -34,7 +34,8 @@
     activePart = part;
     heardWords = undefined;
     for (const word of caption.querySelectorAll('[data-word-start]')) {
-      word.classList.remove('notes-heard');
+      word.classList.remove('notes-heard', 'notes-grade-yellow', 'notes-grade-red');
+      word.removeAttribute('title');
       word.classList.toggle('playing-part', inActivePart(Number(word.dataset.wordStart)));
     }
     for (const button of partButtons.children) {
@@ -125,8 +126,14 @@
         parent.append(script.slice(offset, word.index));
         const span = document.createElement('span');
         span.textContent = word[0];
-        if ((!activePart || inActivePart(word.index)) && heardWords?.[wordIndex - partWordOffset]?.heardClear) {
-          span.className = 'notes-heard';
+        const w = (!activePart || inActivePart(word.index)) ? heardWords?.[wordIndex - partWordOffset] : null;
+        if (w) {
+          const cls = [];
+          if (w.heardClear) cls.push('notes-heard');
+          if (w.grade === 'yellow') cls.push('notes-grade-yellow');
+          else if (w.grade === 'red') cls.push('notes-grade-red');
+          if (cls.length) span.className = cls.join(' ');
+          if ((w.grade === 'yellow' || w.grade === 'red') && w.tip) span.title = w.tip;
         }
         span.dataset.wordStart = word.index;
         span.classList.toggle('playing-part', inActivePart(word.index));

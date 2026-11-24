@@ -31,10 +31,19 @@
     for (const match of displayText.matchAll(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu)) {
       caption.append(document.createTextNode(displayText.slice(offset, match.index)));
       const span = document.createElement('span'); span.textContent = match[0];
-      if (words && words[index]?.heardClear === true) span.className = 'notes-heard';
+      const w = words && words[index];
+      const cls = [];
+      if (w?.heardClear === true) cls.push('notes-heard');
+      if (w?.grade === 'yellow') cls.push('notes-grade-yellow');
+      else if (w?.grade === 'red') cls.push('notes-grade-red');
+      if (cls.length) span.className = cls.join(' ');
+      if ((w?.grade === 'yellow' || w?.grade === 'red') && w?.tip) span.title = w.tip;
       caption.append(span); index++; offset = match.index + match[0].length;
     }
     caption.append(document.createTextNode(displayText.slice(offset)));
+  }
+  function starFx() {
+    try { return window.SpeechStarFx || (parent !== window ? parent.SpeechStarFx : null); } catch (_) { return window.SpeechStarFx || null; }
   }
   function script(src) {
     return new Promise((resolve, reject) => { const el = document.createElement('script'); el.src = src; el.onload = resolve; el.onerror = () => { el.remove(); reject(new Error('load')); }; document.head.append(el); });
@@ -45,7 +54,7 @@
       if (!window.Recorder) await script('speech_recorder.js?v=2026-11-02c');
       if (!window.AdaptiveSpeech?.enabled) {
         if (typeof SPEECH_PRACTICE_ENABLED === 'undefined') await script('config.js?v=2026-11-02c');
-        await script('speech_adaptive_app.js?v=2026-11-20a');
+        await script('speech_adaptive_app.js?v=2026-11-24a');
       }
       if (!window.AdaptiveSpeech?.enabled) throw new Error('Adaptive speech unavailable');
       return { engine: window.AdaptiveSpeech, Recorder: window.Recorder };
@@ -65,11 +74,27 @@
       const result = await api.engine.transcribe(blob, { target: target.text, assessmentProfile: target.assessmentProfile, signal: assessment.signal });
       if (ticket !== generation) return;
       render(target.pictureBookPage && window.PhonicsPictureBookContent ? PhonicsPictureBookContent.assess(result.text, PhonicsPictureBookContent.pages[target.pictureBookPage - 1], result) : result.targetWords);
-      message(result.phonicsAudioDetected === false ? '没有听到清楚的声音，请靠近麦克风再读一次。' : result.targetStatus === 'unavailable' ? '暂时没能检查这些词。可以听自己的录音，或再试一次。' : '绿色是听清的词。可以听自己的录音，或再读一次。');
+      if (result.phonicsAudioDetected === false) {
+        message('没有听到清楚的声音，请靠近麦克风再读一次。');
+      } else if (result.targetStatus === 'unavailable') {
+        message('暂时没能检查这些词。可以听自己的录音，或再试一次。');
+      } else if (result.pronunciation?.hasSpeech && result.pronunciation?.stars > 0) {
+        const s = Math.max(1, Math.min(3, Math.round(result.pronunciation.stars)));
+        const fx = starFx();
+        if (fx) fx.play(s);
+        if (fx?.renderInlineStars) {
+          status.replaceChildren(document.importNode(fx.renderInlineStars(s), true), document.createTextNode(' 绿色很清楚，黄色可再饱满一点，红色请再试一次。'));
+        } else {
+          message('绿色很清楚，黄色可再饱满一点，红色请再试一次。');
+        }
+      } else {
+        message('绿色是听清的词。可以听自己的录音，或再试一次。');
+      }
     } catch (_) { if (ticket === generation) message('这次没听清。可以听自己的录音，或再试一次。'); }
     finally { if (ticket === generation) { clearTimeout(timer); assessment = null; idle(); } }
   }
   mic.addEventListener('click', async () => {
+    starFx()?.unlockAudio();
     if (phase === 'recording') { finish(generation, await engine()); return; }
     if (!canPractice() || phase !== 'idle') return;
     cancel(); const ticket = generation; discard(); render();
