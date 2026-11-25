@@ -54,7 +54,7 @@
       if (!window.Recorder) await script('speech_recorder.js?v=2026-11-02c');
       if (!window.AdaptiveSpeech?.enabled) {
         if (typeof SPEECH_PRACTICE_ENABLED === 'undefined') await script('config.js?v=2026-11-02c');
-        await script('speech_adaptive_app.js?v=2026-11-25a');
+        await script('speech_adaptive_app.js?v=2026-11-25b');
       }
       if (!window.AdaptiveSpeech?.enabled) throw new Error('Adaptive speech unavailable');
       return { engine: window.AdaptiveSpeech, Recorder: window.Recorder };
@@ -141,7 +141,7 @@
     cancel();
     message(target?.partNumber ? practicePrompt() : '已停止。可以继续点读或试读。');
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { cancel(); discard(); message('已停止录音。'); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && (phase === 'recording' || ownAudio)) { cancel(); discard(); message('已停止录音。'); } });
   function dispose() { cancel(); discard(); target = null; idle(); }
   window.NotesSpeech = { dispose };
   window.addEventListener('pagehide', dispose);
