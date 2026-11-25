@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'hp-reader-shell-v1';
+const SHELL_CACHE = 'hp-reader-shell-v2';
 const AUDIO_CACHE = 'hp-reader-audio-v1';
 const RUNTIME_CACHE = 'hp-reader-runtime-v1';
 const ACTIVE_CACHES = new Set([SHELL_CACHE, AUDIO_CACHE, RUNTIME_CACHE]);
@@ -6,14 +6,14 @@ const ACTIVE_CACHES = new Set([SHELL_CACHE, AUDIO_CACHE, RUNTIME_CACHE]);
 const SHELL_ASSETS = [
   './',
   './index.html',
-  './reader.css?v=9',
+  './reader.css?v=10',
   './chapter.js?v=4',
   './word-audio.js?v=4',
   './sentence-parts.js?v=7',
   './reader.js?v=9',
-  './notes_speech.js?v=10',
+  './notes_speech.js?v=11',
   './config.js',
-  './pwa-install.js?v=1',
+  './pwa-install.js?v=2',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
@@ -26,8 +26,13 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(SHELL_CACHE)
       .then((cache) => cache.addAll(SHELL_ASSETS))
-      .then(() => self.skipWaiting())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', (event) => {

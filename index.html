@@ -13,15 +13,22 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="reader.css?v=9">
+  <link rel="stylesheet" href="reader.css?v=10">
   <script defer src="chapter.js?v=4"></script>
   <script defer src="word-audio.js?v=4"></script>
   <script defer src="sentence-parts.js?v=7"></script>
   <script defer src="reader.js?v=9"></script>
   <script defer src="notes_speech.js?v=11"></script>
-  <script defer src="pwa-install.js?v=1"></script>
+  <script defer src="pwa-install.js?v=2"></script>
 </head>
 <body>
+  <div id="update-banner" class="update-banner" role="status" aria-live="polite" hidden>
+    <span>有新版本可用 · New version available</span>
+    <div class="update-banner-actions">
+      <button id="update-refresh" type="button">点击刷新 · Refresh</button>
+      <button id="update-dismiss" class="update-dismiss" type="button" aria-label="稍后再说">×</button>
+    </div>
+  </div>
   <header class="book-header">
     <div class="measure">
       <p class="book" lang="en">Harry Potter and the Sorcerer’s Stone</p>

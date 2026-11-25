@@ -1,11 +1,67 @@
 (() => {
   'use strict';
 
+  const updateBanner = document.querySelector('#update-banner');
+  const updateRefreshBtn = document.querySelector('#update-refresh');
+  const updateDismissBtn = document.querySelector('#update-dismiss');
+  let waitingWorker = null;
+  let refreshing = false;
+
+  function showUpdateBanner(worker) {
+    waitingWorker = worker;
+    if (updateBanner) {
+      updateBanner.hidden = false;
+    }
+  }
+
   if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+
     window.addEventListener('load', () => {
       try {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
+          if (registration.waiting && navigator.serviceWorker.controller) {
+            showUpdateBanner(registration.waiting);
+          }
+
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateBanner(newWorker);
+              }
+            });
+          });
+
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              registration.update().catch(() => {});
+            }
+          });
+        }).catch(() => {});
       } catch (_) {}
+    });
+  }
+
+  if (updateRefreshBtn) {
+    updateRefreshBtn.addEventListener('click', () => {
+      if (waitingWorker) {
+        updateRefreshBtn.disabled = true;
+        waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+      } else {
+        window.location.reload();
+      }
+    });
+  }
+
+  if (updateDismissBtn && updateBanner) {
+    updateDismissBtn.addEventListener('click', () => {
+      updateBanner.hidden = true;
     });
   }
 
