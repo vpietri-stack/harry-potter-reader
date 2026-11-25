@@ -1,0 +1,30 @@
+{
+  "name": "Harry Potter Reader · The Boy Who Lived",
+  "short_name": "HP Reader",
+  "description": "Bilingual sentence-by-sentence reader for Chapter 1 of Harry Potter and the Sorcerer's Stone.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#152922",
+  "theme_color": "#152922",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

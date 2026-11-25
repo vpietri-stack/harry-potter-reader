@@ -22,10 +22,57 @@ button, select { cursor: pointer; }
 button:disabled { cursor: default; opacity: .53; }
 button:focus-visible, select:focus-visible, .sentence:focus-visible, .phrase:focus-visible { outline: 2px solid #9a681e; outline-offset: 3px; }
 .measure { width: min(var(--width), calc(100% - 2.5rem)); margin-inline: auto; }
-.book-header { background: var(--forest); color: #f8f2df; padding-block: clamp(2.4rem, 8vw, 5rem) 2.4rem; border-bottom: 4px solid #bd985b; }
+.book-header {
+  background: var(--forest);
+  color: #f8f2df;
+  padding-block: clamp(2.4rem, 8vw, 5rem) 2.4rem;
+  padding-top: max(clamp(2.4rem, 8vw, 5rem), calc(env(safe-area-inset-top) + 1.5rem));
+  border-bottom: 4px solid #bd985b;
+}
 .book { color: #e2c795; margin: 0 0 1rem; }
 h1 { margin: 0; font: normal clamp(2.8rem, 7.5vw, 5.25rem)/1.02 Georgia, serif; text-wrap: balance; }
 .chapter { color: #d9e4d7; margin: 1rem 0 0; }
+.install-btn {
+  margin-top: 1.15rem;
+  padding: .38rem .85rem;
+  border-radius: 999px;
+  border: 1px solid #bd985b;
+  background: rgba(255, 255, 255, .07);
+  color: #f8f2df;
+  font-size: .875rem;
+  line-height: 1.3;
+}
+.install-btn:hover { background: rgba(189, 152, 91, .22); }
+.install-btn[hidden], .install-guide[hidden] { display: none; }
+.install-guide {
+  position: relative;
+  margin-top: .8rem;
+  padding: .85rem 2.2rem .85rem 1rem;
+  max-width: 28rem;
+  border-radius: .65rem;
+  border: 1px solid rgba(189, 152, 91, .65);
+  background: rgba(13, 27, 22, .9);
+  color: #f0ead8;
+  font-size: .875rem;
+  line-height: 1.55;
+}
+.install-guide p { margin: 0 0 .35rem; }
+.install-guide p:last-child { margin-bottom: 0; }
+.install-guide-en { color: #d9e4d7; font-size: .8125rem; }
+.install-guide-close {
+  position: absolute;
+  top: .45rem;
+  right: .55rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: .35rem;
+  background: transparent;
+  color: #e2c795;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.install-guide-close:hover { background: rgba(255, 255, 255, .1); }
 main { padding-block: 1.15rem calc(var(--player-height) + 2rem); }
 .hint { color: var(--muted); margin: 0 0 1.55rem; line-height: 1.6; }
 article { font: 1.28rem/1.9 Georgia, serif; }
