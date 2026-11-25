@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'hp-reader-shell-v3';
+const SHELL_CACHE = 'hp-reader-shell-v4';
 const AUDIO_CACHE = 'hp-reader-audio-v1';
 const RUNTIME_CACHE = 'hp-reader-runtime-v1';
 const ACTIVE_CACHES = new Set([SHELL_CACHE, AUDIO_CACHE, RUNTIME_CACHE]);
@@ -15,6 +15,22 @@ const SHELL_ASSETS = [
   './reader.js?v=10',
   './notes_speech.js?v=11',
   './config.js',
+  './config.js?v=2026-11-02c',
+  './speech_recorder.js?v=2026-11-02c',
+  './speech_adaptive_app.js?v=2026-11-25b',
+  './speech_adaptive_worker.js?v=13',
+  './speech_adaptive_worker.js?v=13&local=1',
+  './speech_word_core.js?v=1',
+  './speech_adaptive_assets.js?v=6',
+  './speech_adaptive_core.js?v=1',
+  './speech_adaptive_phonetic.js?v=1',
+  './speech_target.js?v=2026-10-28b',
+  './speech_adaptive_evidence.js?v=2',
+  './phonics_speech_evidence.js?v=3',
+  './phonics_speech_segments.js?v=1',
+  './speech_option1/zipa_core.js?v=1',
+  './lib/transformers.min.js?v=4',
+  './lib/wasm/ort-wasm-simd-threaded.jsep.mjs',
   './pwa-install.js?v=2',
   './manifest.webmanifest',
   './icons/icon.svg',
@@ -173,7 +189,7 @@ self.addEventListener('fetch', (event) => {
   if (
     url.pathname.includes('/speech_assets/') ||
     url.pathname.includes('/models/') ||
-    url.pathname.includes('/speech_option1/')
+    url.pathname.includes('/speech_option1/zipa/')
   ) {
     return;
   }
