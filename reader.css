@@ -32,6 +32,45 @@ button:focus-visible, select:focus-visible, .sentence:focus-visible, .phrase:foc
 .book { color: #e2c795; margin: 0 0 1rem; }
 h1 { margin: 0; font: normal clamp(2.8rem, 7.5vw, 5.25rem)/1.02 Georgia, serif; text-wrap: balance; }
 .chapter { color: #d9e4d7; margin: 1rem 0 0; }
+.chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1.25rem;
+}
+.chapter-tab {
+  padding: .42rem .9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(189, 152, 91, .55);
+  background: rgba(255, 255, 255, .06);
+  color: #e2e8e0;
+  font-size: .875rem;
+  line-height: 1.3;
+}
+.chapter-tab:hover { background: rgba(189, 152, 91, .2); color: #fff; }
+.chapter-tab[aria-selected="true"] {
+  background: #bd985b;
+  border-color: #e2c795;
+  color: #152922;
+  font-weight: 600;
+}
+.chapter-footer {
+  margin-top: 2.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+}
+.chapter-next-btn {
+  padding: .6rem 1.15rem;
+  border-radius: .6rem;
+  border: 1px solid #bd985b;
+  background: var(--forest);
+  color: #f8f2df;
+  font-size: .95rem;
+  line-height: 1.35;
+}
+.chapter-next-btn:hover { background: var(--accent); }
 .install-btn {
   margin-top: 1.15rem;
   padding: .38rem .85rem;

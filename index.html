@@ -13,11 +13,13 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="reader.css?v=10">
+  <link rel="stylesheet" href="reader.css?v=11">
   <script defer src="chapter.js?v=4"></script>
+  <script defer src="chapter2.js?v=1"></script>
   <script defer src="word-audio.js?v=4"></script>
   <script defer src="sentence-parts.js?v=7"></script>
-  <script defer src="reader.js?v=9"></script>
+  <script defer src="sentence-parts2.js?v=1"></script>
+  <script defer src="reader.js?v=10"></script>
   <script defer src="notes_speech.js?v=11"></script>
   <script defer src="pwa-install.js?v=2"></script>
 </head>
@@ -34,6 +36,10 @@
       <p class="book" lang="en">Harry Potter and the Sorcerer’s Stone</p>
       <h1 lang="en">The Boy Who Lived</h1>
       <p class="chapter">第一章 · 大难不死的男孩</p>
+      <nav class="chapter-nav" role="tablist" aria-label="章节选择">
+        <button class="chapter-tab" type="button" role="tab" data-chapter="1" aria-selected="true">第一章 · The Boy Who Lived</button>
+        <button class="chapter-tab" type="button" role="tab" data-chapter="2" aria-selected="false">第二章 · The Vanishing Glass</button>
+      </nav>
       <button id="install-app" class="install-btn" type="button" aria-expanded="false" hidden>安装到主屏幕 · Install App</button>
       <div id="install-guide" class="install-guide" hidden role="region" aria-label="安装说明">
         <button id="install-guide-close" class="install-guide-close" type="button" aria-label="关闭安装说明">×</button>
@@ -47,6 +53,7 @@
   <main class="measure">
     <p class="hint">点句子听朗读。点下方的词语可单独听发音，带下划线的词语还可高亮对应中文。</p>
     <article id="chapter" aria-label="第一章正文" lang="en"></article>
+    <nav id="chapter-footer" class="chapter-footer" aria-label="章节导航"></nav>
   </main>
   <aside class="player" aria-label="句子朗读和跟读">
     <div class="selection" aria-live="polite">
