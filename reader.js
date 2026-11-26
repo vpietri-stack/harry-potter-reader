@@ -29,7 +29,6 @@
       data: () => window.chapter || [],
       parts: () => window.sentenceParts || {},
       partsDir: 'audio/parts/',
-      wordAudioMode: 'local',
       bookmarkKey: 'harry-potter-reader:chapter-1:last-sentence',
     },
     2: {
@@ -40,7 +39,6 @@
       data: () => window.chapter2 || [],
       parts: () => window.sentenceParts2 || {},
       partsDir: 'audio/parts-ch2/',
-      wordAudioMode: 'live-baidu',
       bookmarkKey: 'harry-potter-reader:chapter-2:last-sentence',
     },
   };
@@ -51,24 +49,12 @@
   let heardWords;
   let activePart;
   let playbackRequest = 0;
-  let baiduTimeoutId = 0;
-
-  function clearBaiduFallback() {
-    if (baiduTimeoutId) {
-      clearTimeout(baiduTimeoutId);
-      baiduTimeoutId = 0;
-    }
-    audio.onplaying = null;
-    audio.onerror = null;
-  }
+  let startupTimer;
 
   function pause() {
     playbackRequest += 1;
-    clearBaiduFallback();
+    clearTimeout(startupTimer);
     audio.pause();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
   }
 
   function inActivePart(offset) {
@@ -217,79 +203,38 @@
     },
   };
 
-  async function play(source, hint = '') {
+  async function play(source, hint = '', startupTimeout) {
     pause();
     const request = playbackRequest;
-    status.textContent = hint;
+    status.textContent = startupTimeout ? '正在加载发音…' : hint;
     try {
       const url = new URL(source, document.baseURI).href;
       if (audio.src !== url) audio.src = url;
       audio.currentTime = 0;
       audio.playbackRate = Number(rate.value);
+      if (startupTimeout) {
+        startupTimer = setTimeout(() => {
+          if (request !== playbackRequest) return;
+          pause();
+          audio.removeAttribute('src');
+          audio.load();
+          status.textContent = '发音加载超时，请再点一次。';
+        }, startupTimeout);
+      }
       await audio.play();
+      if (request === playbackRequest) status.textContent = hint;
     } catch {
       if (request === playbackRequest) status.textContent = '音频暂时无法播放，请再试一次。';
+    } finally {
+      if (request === playbackRequest) clearTimeout(startupTimer);
     }
-  }
-
-  function speakBrowserFallback(text, request) {
-    if (request !== playbackRequest) return;
-    if (!('speechSynthesis' in window)) {
-      status.textContent = '音频暂时无法播放，请再试一次。';
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-GB';
-    u.rate = Math.max(0.5, Math.min(1.5, Number(rate.value) * 0.9));
-    const voices = window.speechSynthesis.getVoices();
-    const v = voices.find(val => val.lang.includes('GB') || val.lang.includes('UK') || val.lang.startsWith('en'));
-    if (v) u.voice = v;
-    window.speechSynthesis.speak(u);
-  }
-
-  function playLiveBaidu(text, hasTranslation) {
-    pause();
-    const request = playbackRequest;
-    const cleanText = text.replaceAll('’', "'").trim().replace(/\s+/g, ' ');
-    status.textContent = hasTranslation ? '' : '此处暂无单独对应的中文。';
-    if (!cleanText) return;
-
-    const url = 'https://fanyi.baidu.com/gettts?lan=uk&text=' + encodeURIComponent(cleanText) + '&spd=3&source=web';
-    let settled = false;
-    const fallback = () => {
-      if (settled || request !== playbackRequest) return;
-      settled = true;
-      clearBaiduFallback();
-      audio.pause();
-      speakBrowserFallback(cleanText, request);
-    };
-
-    baiduTimeoutId = setTimeout(fallback, 2500);
-    audio.onplaying = () => {
-      if (request !== playbackRequest) return;
-      settled = true;
-      clearBaiduFallback();
-    };
-    audio.onerror = fallback;
-    audio.src = url;
-    audio.playbackRate = Number(rate.value);
-    audio.play().catch(fallback);
   }
 
   function playPhrase(text, hasTranslation) {
-    if (currentChapter.wordAudioMode === 'live-baidu') {
-      playLiveBaidu(text, hasTranslation);
-      return;
-    }
-    const key = text.replaceAll('’', "'").trim().replace(/\s+/g, ' ').toLowerCase();
-    const clip = window.wordAudio?.[key];
-    if (!clip) {
-      pause();
-      status.textContent = '此处暂无单独的发音。';
-      return;
-    }
-    play('audio/words/' + clip + '.mp3', hasTranslation ? '' : '此处暂无单独对应的中文。');
+    const cleanText = text.replaceAll('’', "'").trim().replace(/\s+/g, ' ');
+    if (!cleanText) return;
+    const url = 'https://fanyi.baidu.com/gettts?lan=uk&text=' + encodeURIComponent(cleanText) + '&spd=3&source=web';
+    play(url, hasTranslation ? '' : '此处暂无单独对应的中文。', 15000);
   }
 
   function select(sentence, control) {
