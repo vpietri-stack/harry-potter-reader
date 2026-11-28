@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'hp-reader-shell-v5';
+const SHELL_CACHE = 'hp-reader-shell-v6';
 const AUDIO_CACHE = 'hp-reader-audio-v1';
 const RUNTIME_CACHE = 'hp-reader-runtime-v1';
 const ACTIVE_CACHES = new Set([SHELL_CACHE, AUDIO_CACHE, RUNTIME_CACHE]);
@@ -6,12 +6,14 @@ const ACTIVE_CACHES = new Set([SHELL_CACHE, AUDIO_CACHE, RUNTIME_CACHE]);
 const SHELL_ASSETS = [
   './',
   './index.html',
-  './reader.css?v=11',
+  './reader.css?v=12',
   './chapter.js?v=4',
   './chapter2.js?v=1',
+  './chapter3.js?v=1',
   './sentence-parts.js?v=7',
   './sentence-parts2.js?v=1',
-  './reader.js?v=11',
+  './sentence-parts3.js?v=1',
+  './reader.js?v=12',
   './notes_speech.js?v=11',
   './config.js',
   './config.js?v=2026-11-02c',

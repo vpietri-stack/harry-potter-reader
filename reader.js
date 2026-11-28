@@ -41,6 +41,16 @@
       partsDir: 'audio/parts-ch2/',
       bookmarkKey: 'harry-potter-reader:chapter-2:last-sentence',
     },
+    3: {
+      id: 3,
+      titleEn: 'The Letters from No One',
+      titleZh: '第三章 · 猫头鹰传书',
+      ariaLabel: '第三章正文',
+      data: () => window.chapter3 || [],
+      parts: () => window.sentenceParts3 || {},
+      partsDir: 'audio/parts-ch3/',
+      bookmarkKey: 'harry-potter-reader:chapter-3:last-sentence',
+    },
   };
 
   let currentChapter = CHAPTERS[1];
@@ -101,6 +111,7 @@
 
   function showTranslation() {
     const text = selected.zh;
+    translation.classList.toggle('is-address', Boolean(selected.address));
     if (!highlightedPhrase || highlightedPhrase.length === 2) {
       translation.textContent = text;
       return;
@@ -123,6 +134,7 @@
 
   function showCaption() {
     const script = selected.en;
+    caption.classList.toggle('is-address', Boolean(selected.address));
     const words = Array.from(script.matchAll(wordPattern));
     const partWordOffset = activePart ? words.filter(word => word.index < activePart[0]).length : 0;
     const fragment = document.createDocumentFragment();
@@ -257,17 +269,24 @@
 
   function renderChapterFooter() {
     chapterFooter.replaceChildren();
-    const nextBtn = document.createElement('button');
-    nextBtn.type = 'button';
-    nextBtn.className = 'chapter-next-btn';
-    if (currentChapter.id === 1) {
-      nextBtn.textContent = '下一章：第二章 · The Vanishing Glass →';
-      nextBtn.addEventListener('click', () => loadChapter(2, { restoreBookmark: false, scrollToTop: true }));
-    } else {
-      nextBtn.textContent = '← 返回第一章 · The Boy Who Lived';
-      nextBtn.addEventListener('click', () => loadChapter(1, { restoreBookmark: false, scrollToTop: true }));
+    const prevCfg = CHAPTERS[currentChapter.id - 1];
+    const nextCfg = CHAPTERS[currentChapter.id + 1];
+    if (prevCfg) {
+      const prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'chapter-next-btn';
+      prevBtn.textContent = '← 上一章：' + prevCfg.titleZh.split(' · ')[0] + ' · ' + prevCfg.titleEn;
+      prevBtn.addEventListener('click', () => loadChapter(prevCfg.id, { restoreBookmark: false, scrollToTop: true }));
+      chapterFooter.append(prevBtn);
     }
-    chapterFooter.append(nextBtn);
+    if (nextCfg) {
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = prevCfg ? 'chapter-next-btn' : 'chapter-next-btn only-next';
+      nextBtn.textContent = '下一章：' + nextCfg.titleZh.split(' · ')[0] + ' · ' + nextCfg.titleEn + ' →';
+      nextBtn.addEventListener('click', () => loadChapter(nextCfg.id, { restoreBookmark: false, scrollToTop: true }));
+      chapterFooter.append(nextBtn);
+    }
   }
 
   function loadChapter(chapterId, { restoreBookmark = false, scrollToTop = false } = {}) {
@@ -288,7 +307,9 @@
     }
 
     caption.replaceChildren();
+    caption.classList.remove('is-address');
     translation.textContent = '选择一句话开始。';
+    translation.classList.remove('is-address');
     partsRow.hidden = true;
     partButtons.replaceChildren();
     status.textContent = '';
@@ -315,7 +336,18 @@
     let index = 0;
     const fragment = document.createDocumentFragment();
     for (const paragraph of cfg.data()) {
+      if (paragraph.length === 1 && paragraph[0]?.divider) {
+        const divider = document.createElement('p');
+        divider.className = 'scene-break';
+        divider.setAttribute('aria-hidden', 'true');
+        divider.textContent = '* * *';
+        fragment.append(divider);
+        continue;
+      }
       const block = document.createElement('p');
+      if (paragraph.length === 1 && paragraph[0]?.address) {
+        block.className = 'address-block';
+      }
       for (const sentence of paragraph) {
         const control = document.createElement('span');
         control.id = 'sentence-' + ++index;
@@ -391,8 +423,9 @@
   try {
     const params = new URLSearchParams(window.location.search);
     const paramCh = Number(params.get('chapter'));
+    const hashMatch = /^#chapter-(\d+)$/.exec(window.location.hash);
     if (CHAPTERS[paramCh]) initialChapter = paramCh;
-    else if (window.location.hash === '#chapter-2') initialChapter = 2;
+    else if (hashMatch && CHAPTERS[Number(hashMatch[1])]) initialChapter = Number(hashMatch[1]);
     else {
       const saved = Number(localStorage.getItem(lastChapterKey));
       if (CHAPTERS[saved]) initialChapter = saved;
